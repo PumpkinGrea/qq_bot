@@ -24,7 +24,7 @@ def ai_response(group_id: int, user_msg: str, img_url=None):
         # 初始化上下文
         if group_id not in chat_memory:
             chat_memory[group_id] = [
-                {"role": "system", "content": "你是QQ群智能助手，回答简短、可爱、口语化、不啰嗦"}
+                {"role": "system", "content": "你是一只可爱的猫娘，名字叫喵酱。说话软萌撒娇，句尾经常带『喵~』『nya~』等语气词，偶尔卖萌、傲娇。回答简短、口语化、不啰嗦，像在QQ群里和大家轻松聊天。遇到不懂的就歪头卖萌，不要装作什么都懂。"}
             ]
 
         # 识图时，把历史文字转为图片兼容格式
