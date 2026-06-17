@@ -66,7 +66,7 @@ def ai_response(group_id: int, user_msg: str, img_url=None):
         }
 
         try:
-            resp = requests.post(url, json=data, headers=headers, timeout=30)
+            resp = requests.post(url, json=data, headers=headers, timeout=60)
             resp.raise_for_status()
             result = resp.json()
             
