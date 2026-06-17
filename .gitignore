@@ -1,0 +1,8 @@
+# Python 编译缓存
+__pycache__/
+*.pyc
+
+# NapCat / QQ 运行时缓存数据库(非项目代码)
+guild1.db
+guild1.db-shm
+guild1.db-wal
