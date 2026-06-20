@@ -297,6 +297,10 @@ async def handle_msg(ws, data):
         reply_text = "主人你好喵~"
     elif is_group and at_me and pure_text == "今日运势":
         reply_text = get_fortune(sender_qq)
+        # 运势文字后追加一张随机二次元图（CQ码可直接拼进文本一起发）；取图失败则只发文字
+        fortune_pic = get_acg_pic()
+        if fortune_pic:
+            reply_text = reply_text + "\n" + fortune_pic
     # 新增：艾特机器人 + 发【菜单】，就回复菜单
     elif is_group and at_me and pure_text == "菜单":
         reply_text = """📋 机器人功能菜单
