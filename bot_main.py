@@ -11,6 +11,8 @@ from auto_reply import auto_reply
 from ai_module import ai_response
 # 今日运势逻辑
 from fortune import get_fortune
+# 随机二次元图片逻辑
+from acg_pic import get_acg_pic
 
 
 import json
@@ -328,7 +330,16 @@ async def handle_msg(ws, data):
         print("生成幻影坦克中...")
         image_reply = get_phantom_tank(pure_text, img_url_list)
         if image_reply:
-            reply_text = "幻影坦克"   
+            reply_text = "幻影坦克"
+
+    # 随机二次元图片：艾特机器人 + 关键词触发
+    if is_group and at_me and image_reply is None and ("来张图" in pure_text or "二次元" in pure_text):
+        print("获取随机二次元图片中...")
+        image_reply = get_acg_pic()
+        if image_reply:
+            reply_text = "随机二次元图片"
+        else:
+            reply_text = "呜喵～图库暂时连不上，待会再试试吧喵～"
 
     # ====================== AI 兜底回复（不冲突！） ======================
     if is_group and at_me and reply_text is None and image_reply is None:
