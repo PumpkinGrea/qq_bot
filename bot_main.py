@@ -2,8 +2,6 @@
 import asyncio
 # 导入异步WebSocket网络库，用于和NapCat通信
 import aiohttp
-# 随机数生成模块
-import random
 # 图片处理逻辑
 from pic_handle import get_reply_img
 from pic_handle import get_phantom_tank
@@ -11,6 +9,8 @@ from pic_handle import get_phantom_tank
 from auto_reply import auto_reply
 # 导入api调用模块
 from ai_module import ai_response
+# 今日运势逻辑
+from fortune import get_fortune
 
 
 import json
@@ -294,8 +294,7 @@ async def handle_msg(ws, data):
     if is_group and at_me and sender_qq == 3554647781 and pure_text == "说话":
         reply_text = "主人你好喵~"
     elif is_group and at_me and pure_text == "今日运势":
-        num = random.randint(1, 100)
-        reply_text = "今日运势指数为" + str(num) + "喵~"
+        reply_text = get_fortune(sender_qq)
     # 新增：艾特机器人 + 发【菜单】，就回复菜单
     elif is_group and at_me and pure_text == "菜单":
         reply_text = """📋 机器人功能菜单
