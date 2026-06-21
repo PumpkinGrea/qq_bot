@@ -6,3 +6,6 @@ __pycache__/
 guild1.db
 guild1.db-shm
 guild1.db-wal
+
+# 密钥配置（含 API key，不可提交）
+config_secret.py

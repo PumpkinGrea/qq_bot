@@ -13,6 +13,8 @@ from ai_module import ai_response
 from fortune import get_fortune
 # 随机二次元图片逻辑
 from acg_pic import get_acg_pic
+# GPT 生图逻辑
+from gpt_draw import get_gpt_draw
 
 
 import json
@@ -84,6 +86,7 @@ async def send_startup_broadcast(ws):
 ✅ 我现在是猫娘喵酱，说话奶里奶气的喵~
 ✅ 支持识图（发图片给我看）+ 各群独立记忆
 ✅ 新增：随机二次元图片、每日专属运势
+✅ 新增：AI生成图片，@我 画图 + 描述 即可
 💡 用法：@我 + 文字/图片 即可聊天识图
     @我 清空对话 → 重置本群记忆
     详情请 @我 发送"菜单"查询喵~"""
@@ -315,6 +318,7 @@ async def handle_msg(ws, data):
    @我 镜像 + 图片 → 左右对称镜像（支持GIF）
    幻影坦克 + 2张图 → 黑白背景切换显示
    @我 来张图 / 二次元 → 随机二次元图片
+   @我 画图 + 描述 → AI生成图片（如：画图 戴帽子的猫）
 
 🔮 趣味功能
    @我 今日运势 → 查看专属运势（每天固定）
@@ -354,6 +358,19 @@ async def handle_msg(ws, data):
             reply_text = "随机二次元图片"
         else:
             reply_text = "呜喵～图库暂时连不上，待会再试试吧喵～"
+
+    # GPT 生图：艾特机器人 + 以「画图 」开头触发（需空格隔开描述，避免误触发）
+    if is_group and at_me and image_reply is None:
+        _stripped = pure_text.strip()
+        if _stripped.startswith("画图"):
+            draw_prompt = _stripped[2:].strip()  # 去掉开头的「画图」，剩下作为描述
+            print(f"生成GPT图片中...描述：{draw_prompt}")
+            draw_cq, draw_err = get_gpt_draw(draw_prompt)
+            if draw_cq:
+                image_reply = draw_cq
+                reply_text = "GPT生图"
+            else:
+                reply_text = draw_err
 
     # ====================== AI 兜底回复（不冲突！） ======================
     if is_group and at_me and reply_text is None and image_reply is None:

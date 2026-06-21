@@ -2,8 +2,12 @@ import requests
 import time
 import threading
 
+try:
+    from config_secret import ZHIPU_API_KEY
+except ImportError:
+    ZHIPU_API_KEY = ""
+
 # ===================== 配置区 =====================
-ZHIPU_API_KEY = "sk-0785ff2a4988465d87c7ef5eb4eaf5e4.FJj67FzCANSdYwpP"
 CHAT_MODEL = "glm-5.1"
 VISION_MODEL = "glm-4.6v"
 # ==================================================
