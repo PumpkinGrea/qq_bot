@@ -82,7 +82,7 @@ async def send_startup_broadcast(ws):
 
         # 2. 公告内容
         broadcast_msg = """📢 喵酱已更新重启啦~
-✅ 对话模型升级为 glm-5.1，更聪明啦
+✅ 对话模型还原回为 glm-4.5-air
 ✅ 我现在是猫娘喵酱，说话奶里奶气的喵~
 ✅ 支持识图（发图片给我看）+ 各群独立记忆
 ✅ 新增：随机二次元图片、每日专属运势
@@ -205,7 +205,7 @@ async def connect():
         ) as ws:
             print("✅ QQ全自动机器人已启动，开始监听消息！")
             # 发布更新公告
-            await send_startup_broadcast(ws)
+            # await send_startup_broadcast(ws)
             # 无限循环：持续等待接收QQ消息
             async for msg in ws:
                 # 只处理文本类型的消息数据包

@@ -8,7 +8,7 @@ except ImportError:
     ZHIPU_API_KEY = ""
 
 # ===================== 配置区 =====================
-CHAT_MODEL = "glm-5.1"
+CHAT_MODEL = "glm-4.5-air"
 VISION_MODEL = "glm-4.6v"
 # ==================================================
 
