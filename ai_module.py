@@ -26,6 +26,10 @@ def ai_response(group_id: int, user_msg: str, img_url=None):
             chat_memory.pop(group_id, None)
             return "✅ 已清空当前对话记忆～"
 
+        # 仅 @ 加图片时也要提供文字提示，避免识图接口返回空内容。
+        if img_url and not user_msg.strip():
+            user_msg = "请简短描述这张图片，像在群聊里自然接话。"
+
         # 初始化上下文
         if group_id not in chat_memory:
             chat_memory[group_id] = [
@@ -78,8 +82,12 @@ def ai_response(group_id: int, user_msg: str, img_url=None):
             resp.raise_for_status()
             result = resp.json()
             
-            # ✅ 关键修复：加上 message 层
-            reply = result["choices"][0]["message"]["content"].strip()
+            reply = (result["choices"][0]["message"].get("content") or "").strip()
+            if not reply:
+                print(f"[AI] 模型 {use_model} 返回空内容，群 {group_id}", flush=True)
+                if img_url:
+                    return "刚才没看清图片，加一句说明或换张图再试试喵~"
+                return "刚才没生成出回复，再说一遍试试喵~"
 
             # 只保存文字，不保存图片
             chat_memory[group_id].append({"role": "user", "content": user_msg})
