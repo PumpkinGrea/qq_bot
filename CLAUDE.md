@@ -28,7 +28,7 @@ python bot_main.py
 
 - [auto_reply.py](auto_reply.py) `auto_reply()` — 纯文本关键词匹配，群聊**未艾特**时触发。
 - [pic_handle.py](pic_handle.py) — 图片处理。`get_reply_img()` 做左右镜像（支持 GIF 逐帧）；`get_phantom_tank()` 做幻影坦克（需 ≥2 张图，强制灰度区间分离避免失效）。返回 CQ 码（base64 内嵌图片）。
-- [ai_module.py](ai_module.py) `ai_response()` — 智谱 GLM 兜底回复，仅在群聊**艾特**且无其它命中时调用。文本走 `glm-4.5-air`，带图走视觉模型 `glm-4.6v`。
+- [ai_module.py](ai_module.py) `ai_response()` — 智谱 GLM 兜底回复，仅在群聊**艾特**且无其它命中时调用。文本走免费模型 `glm-4.5-flash`，带图走免费视觉模型 `glm-4.6v-flash`；均关闭思考模式以减少群聊等待，仍受平台速率限制。
 
 ## 关键约定
 
@@ -42,7 +42,13 @@ python bot_main.py
 ## 配置位置（硬编码）
 
 - NapCat WebSocket 地址与 Token：[bot_main.py](bot_main.py) 顶部 `WS_URL` 及 `connect()` 中的 `Authorization` header。
-- 智谱 API Key 与模型名：[ai_module.py](ai_module.py) 顶部配置区。
+- 智谱 API Key：从不入库的 `config_secret.py` 读取 `ZHIPU_API_KEY`；模型名在 [ai_module.py](ai_module.py) 顶部配置区。
 - 主人 QQ 号：`handle_msg()` 中硬编码（`sender_qq == 3554647781`）。
 
 注意：`guild1.db*` 是数据库文件，但当前代码中未被任何模块引用。
+
+## 免费 AI 模型依据
+
+- 文字对话：[GLM-4.5-Flash 官方文档](https://docs.bigmodel.cn/cn/guide/models/free/glm-4.5-flash)。
+- 图片理解：[GLM-4.6V-Flash 官方文档](https://docs.bigmodel.cn/cn/guide/models/free/glm-4.6v-flash)。
+- 核查日期：2026-10-30。使用原有智谱 API Key 和对话补全接口，不自动回退到付费模型。

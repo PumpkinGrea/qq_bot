@@ -8,8 +8,8 @@ except ImportError:
     ZHIPU_API_KEY = ""
 
 # ===================== 配置区 =====================
-CHAT_MODEL = "glm-4.5-air"
-VISION_MODEL = "glm-4.6v"
+CHAT_MODEL = "glm-4.5-flash"
+VISION_MODEL = "glm-4.6v-flash"
 # ==================================================
 
 chat_memory = {}
@@ -66,7 +66,9 @@ def ai_response(group_id: int, user_msg: str, img_url=None):
         data = {
             "model": use_model,
             "messages": messages,
-            "temperature": 0.7
+            "temperature": 0.7,
+            # 群聊使用非思考模式，减少等待时间。
+            "thinking": {"type": "disabled"}
         }
 
         try:
