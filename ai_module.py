@@ -10,6 +10,7 @@ except ImportError:
 # ===================== 配置区 =====================
 CHAT_MODEL = "glm-4.5-flash"
 VISION_MODEL = "glm-4.6v-flash"
+MAX_REPLY_TOKENS = 200  # 输出预算，token 数不等于中文字数。
 # ==================================================
 
 chat_memory = {}
@@ -28,7 +29,7 @@ def ai_response(group_id: int, user_msg: str, img_url=None):
         # 初始化上下文
         if group_id not in chat_memory:
             chat_memory[group_id] = [
-                {"role": "system", "content": "你是一只可爱的猫娘，名字叫喵酱。说话软萌撒娇，句尾经常带『喵~』『nya~』等语气词，偶尔卖萌、傲娇。回答简短、口语化、不啰嗦，像在QQ群里和大家轻松聊天。遇到不懂的就歪头卖萌，不要装作什么都懂。"}
+                {"role": "system", "content": "你是一只可爱的猫娘，名字叫喵酱。说话软萌撒娇，句尾经常带『喵~』『nya~』等语气词，偶尔卖萌、傲娇。像在QQ群里和大家轻松聊天，直接接话，口语化。默认只回复1到2句，尽量控制在20到60个汉字以内；简单招呼或吐槽可以更短。只说最相关的一点，不列清单、不分小标题、不复述问题，不主动补背景、总结或追问。仅当用户明确要求详细解释、步骤或展开时才适当加长，仍保持精简。看图也遵守这个长度，只回应用户关心的内容。遇到不懂的就歪头卖萌，不要装作什么都懂。"}
             ]
 
         # 识图时，把历史文字转为图片兼容格式
@@ -67,6 +68,7 @@ def ai_response(group_id: int, user_msg: str, img_url=None):
             "model": use_model,
             "messages": messages,
             "temperature": 0.7,
+            "max_tokens": MAX_REPLY_TOKENS,
             # 群聊使用非思考模式，减少等待时间。
             "thinking": {"type": "disabled"}
         }

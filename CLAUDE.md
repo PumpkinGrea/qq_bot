@@ -52,3 +52,7 @@ python bot_main.py
 - 文字对话：[GLM-4.5-Flash 官方文档](https://docs.bigmodel.cn/cn/guide/models/free/glm-4.5-flash)。
 - 图片理解：[GLM-4.6V-Flash 官方文档](https://docs.bigmodel.cn/cn/guide/models/free/glm-4.6v-flash)。
 - 核查日期：2026-10-30。使用原有智谱 API Key 和对话补全接口，不自动回退到付费模型。
+
+## AI 回复长度
+
+默认回复 1–2 句，目标为 20–60 个汉字；只有用户明确要求详细说明时才适当展开。文字和识图共用该风格要求。`ai_module.py` 的 `MAX_REPLY_TOKENS = 200` 限制单次输出预算，token 数不等于中文字数，因此字数目标不是硬性字符截断。
