@@ -313,13 +313,13 @@ async def handle_msg(ws, data):
 
 🎨 图片玩法
    @我 镜像 + 图片 → 左右对称镜像（支持GIF）
-   幻影坦克 + 2张图 → 黑白背景切换显示
+   @我 幻影坦克 + 2张图 → 黑白背景切换显示
    @我 来张图 / 二次元 → 随机二次元图片
 
 🔮 趣味功能
    @我 今日运势 → 查看专属运势（每天固定）
 
-💡 提示：大部分功能需要先@我哦喵~"""
+💡 提示：群聊除关键词自动回复外，其他功能都需要先@我哦喵~"""
 
     # ----------------------  私聊回复逻辑 ----------------------
     # for test
@@ -333,14 +333,14 @@ async def handle_msg(ws, data):
 
     image_reply = None
 
-    if is_group and "镜像" in pure_text and img_url_list:
+    if is_group and at_me and "镜像" in pure_text and img_url_list:
         print("处理中")
         image_reply = get_reply_img(pure_text, img_url_list)
         # 有图片处理结果，强制让 reply_text 不为空，防止被 return 拦截
         if image_reply:
             reply_text = "镜像图片"
 
-    if "幻影坦克" in pure_text and len(img_url_list) >= 2:
+    if is_group and at_me and "幻影坦克" in pure_text and len(img_url_list) >= 2:
         print("生成幻影坦克中...")
         image_reply = get_phantom_tank(pure_text, img_url_list)
         if image_reply:
